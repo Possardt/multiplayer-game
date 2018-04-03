@@ -1,0 +1,22 @@
+{
+  "name": "multiplayer-game",
+  "version": "1.0.0",
+  "description": "",
+  "private": true,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start:dev": "nodemon --watch src --watch server.js -x npm run buildAndStart",
+    "buildAndStart": "npx webpack && node server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.3",
+    "socket.io": "^2.1.0",
+    "uuid": "^3.2.1"
+  },
+  "devDependencies": {
+    "webpack": "^4.4.1",
+    "webpack-cli": "^2.0.13"
+  }
+}
