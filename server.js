@@ -18,7 +18,7 @@ nsp.on('connection', client => {
   console.log(`\t Player: ${client.userId} connected.`);
   gamePlayers[client.userId] = {x: 300, y: 300};
 
-  client.emit('onconnected', {userId : client.userId });
+  client.emit('onconnected', {userId : client.userId, x: 300, y: 300 });
   client.on('disconnect', () => console.log(`\t Player: ${client.userId} disconnected.`));
 
   client.on('movement', data => {
