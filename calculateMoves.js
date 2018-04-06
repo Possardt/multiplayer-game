@@ -5,8 +5,8 @@ const updatePlayerMove = (gamePlayers, data) => {
     console.log('player not found');
   }
 
-  if(data.left) player.x += (0.25 * timeDifference);
-  if(data.right) player.x -= (0.25 * timeDifference);
+  if(data.left) player.x -= (0.25 * timeDifference);
+  if(data.right) player.x += (0.25 * timeDifference);
   if(data.up) player.y -= (0.25 * timeDifference);
   if(data.down) player.y += (0.25 * timeDifference);
   player.count = data.count;

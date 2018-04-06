@@ -12,6 +12,5 @@ export function startPhysicsLoop(movement, player) {
     movement.count++;
     movement.timeDifference = timeDifference;
     lastUpdateTime = currentTime;
-    console.log(player);
   }, 1000 / 60);
 };

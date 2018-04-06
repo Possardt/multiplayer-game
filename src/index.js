@@ -5,8 +5,6 @@ import { paintCanvas } from './canvas.js';
 
 const socket = io('http://localhost:3000/test');
 
-
-//TODO: make constants file
 let clientCalculations = {},
     serverCalculations = {};
 
@@ -20,6 +18,7 @@ const movement = {
 }
 
 const player = {};
+const otherPlayers = {};
 
 
 socket.on('onconnected', data => {
@@ -31,7 +30,7 @@ socket.on('onconnected', data => {
 
 addListeners(movement);
 startPhysicsLoop(movement, player);
-paintCanvas(player);
+paintCanvas(player, otherPlayers);
 
 
 
@@ -44,4 +43,5 @@ setInterval(function() {
 socket.on('state', players => {
   serverCalculations[players[player.userId].count] = Object.assign({}, players[player.userId]);
   delete players[player.userId];
+  Object.assign(otherPlayers, players);
 });
