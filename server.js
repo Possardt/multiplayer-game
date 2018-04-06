@@ -3,6 +3,7 @@ const app              = express();
 const server 		    	 = require('http').createServer(app);
 const io 				       = require('socket.io')(server);
 const uuidv4           = require('uuid/v4');
+const updatePlayerMove = require('./calculateMoves');
 const gamePlayers = {};
 
 app.use(express.static(__dirname + '/dist'));
@@ -19,19 +20,19 @@ nsp.on('connection', client => {
   gamePlayers[client.userId] = {x: 300, y: 300};
 
   client.emit('onconnected', {userId : client.userId, x: 300, y: 300 });
-  client.on('disconnect', () => console.log(`\t Player: ${client.userId} disconnected.`));
+  client.on('disconnect', () => {
+    console.log(`\t Player: ${client.userId} disconnected.`);
+    delete gamePlayers[client.userId];
+  });
 
-  client.on('movement', data => {
-    let player = gamePlayers[client.userId] || {};
-    if(data.left) player.x -= 5;
-    if(data.right) player.x += 5;
-    if(data.up) player.y -= 5;
-    if(data.down) player.y += 5;
-    
+  client.on('movement', playerMoves => {
+    playerMoves.userId = client.userId;
+    updatePlayerMove(gamePlayers, playerMoves);
   });
 });
 
 setInterval(() => {
+  console.log(gamePlayers);
   nsp.emit('state', gamePlayers);
 }, 1000 / 60);
 
