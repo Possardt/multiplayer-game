@@ -27,6 +27,7 @@ nsp.on('connection', client => {
     if(data.right) player.x += 5;
     if(data.up) player.y -= 5;
     if(data.down) player.y += 5;
+    
   });
 });
 

@@ -1,4 +1,5 @@
 import io from 'socket.io-client';
+import keyboardListener from './input.js';
 
 const socket = io('http://localhost:3000/test');
 
@@ -6,40 +7,10 @@ const movement = {
   up: false,
   down: false,
   left: false,
-  right: false
+  right: false,
+  count: 0
 }
-document.addEventListener('keydown', function(event) {
-  switch (event.keyCode) {
-    case 65: // A
-      movement.left = true;
-      break;
-    case 87: // W
-      movement.up = true;
-      break;
-    case 68: // D
-      movement.right = true;
-      break;
-    case 83: // S
-      movement.down = true;
-      break;
-  }
-});
-document.addEventListener('keyup', function(event) {
-  switch (event.keyCode) {
-    case 65: // A
-      movement.left = false;
-      break;
-    case 87: // W
-      movement.up = false;
-      break;
-    case 68: // D
-      movement.right = false;
-      break;
-    case 83: // S
-      movement.down = false;
-      break;
-  }
-});
+
 
 const player = {};
 const playerSpeed = 3;
@@ -50,9 +21,9 @@ socket.on('onconnected', data => {
   player.y = data.y;
 });
 
-// setInterval(function() {
-//   socket.emit('movement', movement);
-// }, 1000 / 60);
+setInterval(function() {
+  socket.emit('movement', movement);
+}, 1000 / 60);
 
 
 
@@ -87,10 +58,11 @@ let lastUpdateTime = (new Date()).getTime();
 setInterval(function() {
   let currentTime = (new Date()).getTime();
   let timeDifference = currentTime - lastUpdateTime;
-  if(movement.left) player.x -= playerSpeed;
-  if(movement.right) player.x += playerSpeed;
-  if(movement.up) player.y -= playerSpeed;
-  if(movement.down) player.y += playerSpeed;
+  if(movement.left) player.x -= (playerSpeed * timeDifference);
+  if(movement.right) player.x += (playerSpeed * timeDifference);
+  if(movement.up) player.y -= (playerSpeed * timeDifference);
+  if(movement.down) player.y += (playerSpeed * timeDifference);
+  movement.count++;
   lastUpdateTime = currentTime;
   // draw();
 }, 1000 / 60);
