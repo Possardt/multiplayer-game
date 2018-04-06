@@ -1,4 +1,4 @@
-const addListeners = movement => {
+export function addListeners (movement){
   document.addEventListener('keydown', function(event) {
     switch (event.keyCode) {
       case 65: // A
@@ -32,5 +32,3 @@ const addListeners = movement => {
     }
   });
 };
-
-module.exports = addListeners;

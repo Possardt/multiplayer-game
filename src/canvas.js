@@ -1,10 +1,13 @@
-const paintCanvas = (player) => {
+
+
+export function paintCanvas(player){
   let canvas = document.getElementById('canvas');
   canvas.width = 800;
   canvas.height = 600;
   let context = canvas.getContext('2d');
   //Drawing as soon as the requestAnimFrame lets me
   let draw = () => {
+    // console.log(player);
       context.clearRect(0, 0, 800, 600);
 
       //current Player
@@ -19,5 +22,3 @@ const paintCanvas = (player) => {
   }
   requestAnimationFrame(draw);
 }
-
-module.exports = paintCanvas;

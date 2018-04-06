@@ -1,7 +1,7 @@
 import io from 'socket.io-client';
-import addListeners from './input.js';
-import startPhysicsLoop from './physics.js';
-import paintCanvas from './canvas';
+import { addListeners } from './input.js';
+import { startPhysicsLoop } from './physics.js';
+import { paintCanvas } from './canvas.js';
 
 const socket = io('http://localhost:3000/test');
 
@@ -19,10 +19,7 @@ const movement = {
   timeDifference: null
 }
 
-
-
 const player = {};
-const playerSpeed = 0.25;
 
 
 socket.on('onconnected', data => {
@@ -35,6 +32,8 @@ socket.on('onconnected', data => {
 addListeners(movement);
 startPhysicsLoop(movement, player);
 paintCanvas(player);
+
+
 
 setInterval(function() {
   clientCalculations[movement.count] = movement;
