@@ -8,28 +8,31 @@ const gamePlayers = {};
 
 app.use(express.static(__dirname + '/dist'));
 
-app.get('/', function(req, res) {
-     res.sendfile('./public/views/index.html');
-   });
-
 let nsp = io.of('/test');
 
 nsp.on('connection', client => {
-  client.userId = uuidv4();
-  console.log(`\t Player: ${client.userId} connected.`);
-  gamePlayers[client.userId] = {x: 300, y: 300};
 
-  client.emit('onconnected', {userId : client.userId, x: 300, y: 300 });
-  client.on('disconnect', () => {
-    console.log(`\t Player: ${client.userId} disconnected.`);
-    delete gamePlayers[client.userId];
-  });
-
+  playerConnected(client, gamePlayers);  
+  client.on('disconnect', () => playerDisconnected(client, gamePlayers));
   client.on('movement', playerMoves => {
     playerMoves.userId = client.userId;
     updatePlayerMove(gamePlayers, playerMoves);
   });
+
 });
+
+
+const playerConnected = (client, gamePlayers) => {
+  client.userId = uuidv4();
+  console.log(`\t Player: ${client.userId} connected.`);
+  client.emit('onconnected', {userId : client.userId, x: 300, y: 300 });
+  gamePlayers[client.userId] = {x: 300, y: 300};
+}
+
+const playerDisconnected = (client, gamePlayers) => {
+  console.log(`\t Player: ${client.userId} disconnected.`);
+  delete gamePlayers[client.userId];
+}
 
 setInterval(() => {
   console.log(gamePlayers);

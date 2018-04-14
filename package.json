@@ -5,7 +5,8 @@
   "private": true,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start:dev": "nodemon --watch src --watch server.js -x npm run buildAndStart",
+    "start:dev": "nodemon --watch src --watch server.js -x npm run buildAndStart:dev",
+    "buildAndStart:dev": "webpack --devtool source-map && node server.js", 
     "buildAndStart": "npx webpack && node server.js"
   },
   "author": "",
